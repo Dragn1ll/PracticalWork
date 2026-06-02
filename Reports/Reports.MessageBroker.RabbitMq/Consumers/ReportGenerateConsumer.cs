@@ -19,7 +19,7 @@ public class ReportGenerateConsumer : RabbitMqConsumer<CreateReportEvent>
 
     protected override async Task ProcessMessageAsync(CreateReportEvent? messageObject)
     {
-        var scope = _scopeFactory.CreateScope();
+        using var scope = _scopeFactory.CreateScope();
         var genService = scope.ServiceProvider.GetRequiredService<IReportGenService>();
 
         if (messageObject != null)
