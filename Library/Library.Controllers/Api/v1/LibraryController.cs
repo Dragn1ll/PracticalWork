@@ -12,7 +12,7 @@ namespace Library.Controllers.Api.v1;
 [ApiController]
 [ApiVersion("1")]
 [Route("api/v{version:apiVersion}/library")]
-public class LibraryController : Controller
+public class LibraryController : ControllerBase
 {
     private readonly ILibraryService _libraryService;
 
@@ -67,7 +67,7 @@ public class LibraryController : Controller
     }
 
     /// <summary>Получение детальной информации о книге</summary>
-    [HttpPost("{id:guid}/details")]
+    [HttpGet("{id:guid}/details")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(BookDetailsResponse), 200)]
     [ProducesResponseType(400)]
@@ -80,7 +80,7 @@ public class LibraryController : Controller
     }
     
     /// <summary>Получение детальной информации о книге</summary>
-    [HttpPost("{title}/details")]
+    [HttpGet("{title}/details")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(BookDetailsResponse), 200)]
     [ProducesResponseType(400)]

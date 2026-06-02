@@ -27,7 +27,10 @@ public class ReportsServiceClient : IReportsServiceClient
     /// <inheritdoc cref="IReportsServiceClient.GetAllActivityLogs"/>
     public async Task<IEnumerable<ActivityLog>> GetAllActivityLogs(GetActivityLogsDto dto)
     {
-        var response = await _httpClient.GetAsync($"{_options.BaseUrl}/activities");
+        var response = await _httpClient.GetAsync($"{_options.BaseUrl}/activities" +
+                                                  $"?dateFrom={dto.DateFrom}&dateTo={dto.DateTo}" +
+                                                  $"&eventType={dto.EventType}&page={dto.Page}" +
+                                                  $"&pageSize={dto.PageSize}");
         
         return await ReadResultAsync<IEnumerable<ActivityLog>>(response);
     }

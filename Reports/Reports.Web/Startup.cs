@@ -52,8 +52,8 @@ public class Startup
         services.AddSwaggerGen(c =>
         {
             c.UseOneOfForPolymorphism();
-            c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "PracticalWork.Library.Contracts.xml"));
-            c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "PracticalWork.Library.Controllers.xml"));
+            c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Reports.Contracts.xml"));
+            c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Reports.Controllers.xml"));
         });
 
         services.AddDomain();

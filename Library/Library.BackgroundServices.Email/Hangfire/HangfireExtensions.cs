@@ -1,4 +1,5 @@
 using Hangfire;
+using Library.BackgroundServices.Email.Abstractions.Jobs;
 using Library.BackgroundServices.Email.Jobs;
 using Library.BackgroundServices.Email.Settings;
 using Microsoft.AspNetCore.Builder;
@@ -29,13 +30,13 @@ public static class HangfireExtensions
         IRecurringJobManager manager, 
         string jobId, 
         string configKey, 
-        JobOptions options)
+        JobOptions options) where T : ILibraryJob
     {
         if (options.Jobs.TryGetValue(configKey, out var config))
         {
             manager.AddOrUpdate<T>(
                 jobId,
-                job => ((dynamic)job!).ExecuteAsync(CancellationToken.None),
+                job => job.ExecuteAsync(CancellationToken.None),
                 config.CronExpression,
                 new RecurringJobOptions
                 {

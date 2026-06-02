@@ -21,7 +21,7 @@ public class ReaderRepository : IReaderRepository
     /// <inheritdoc cref="IReaderRepository.CreateReader"/>
     public async Task<Guid> CreateReader(Reader reader)
     {
-        if (_appDbContext.Readers.Any(r => r.PhoneNumber == reader.PhoneNumber))
+        if (await _appDbContext.Readers.AnyAsync(r => r.PhoneNumber == reader.PhoneNumber))
         {
             throw new ReaderAlreadyExistsException(
                 $"Читатель с таким номером телефона уже существует: {reader.PhoneNumber}");

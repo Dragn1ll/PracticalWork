@@ -12,7 +12,6 @@ public static class Entry
     {
         serviceCollection.AddOptions<ReportsServiceOptions>().BindConfiguration("ReportsService");
 
-        serviceCollection.AddScoped<IReportsServiceClient, ReportsServiceClient>();
         serviceCollection.AddHttpClient<IReportsServiceClient, ReportsServiceClient>();
 
         return serviceCollection;

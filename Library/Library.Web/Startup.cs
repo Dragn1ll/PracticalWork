@@ -56,8 +56,8 @@ public class Startup
         services.AddSwaggerGen(c =>
         {
             c.UseOneOfForPolymorphism();
-            c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "PracticalWork.Library.Contracts.xml"));
-            c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "PracticalWork.Library.Controllers.xml"));
+            c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Library.Contracts.xml"));
+            c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Library.Controllers.xml"));
         });
 
         services.AddDomain();
@@ -65,7 +65,7 @@ public class Startup
         services.AddFileStorage();
         services.AddMessageBroker();
         services.AddReportsServiceClient();
-        services.AddEmailBackgroundService();
+        services.AddEmailBackgroundService(Configuration);
     }
 
     [UsedImplicitly]
@@ -97,7 +97,11 @@ public class Startup
             endpoints.MapControllers();
         });
         
-        app.UseHangfireDashboard();
+        app.UseHangfireDashboard("/hangfire", new DashboardOptions
+        {
+            Authorization = [new AllowAllDashboardAuthorizationFilter()],
+            DashboardTitle = "Библиотека - Фоновые задачи"
+        });
         app.UseRecurringJobs();
     }
 }

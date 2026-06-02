@@ -10,7 +10,7 @@ namespace Library.Controllers.Api.v1;
 [ApiController]
 [ApiVersion("1")]
 [Route("api/v{version:apiVersion}/readers")]
-public class ReaderController : Controller
+public class ReaderController : ControllerBase
 {
     private readonly IReaderService _readerService;
 
@@ -59,7 +59,7 @@ public class ReaderController : Controller
     }
     
     /// <summary>Получение взятых книг</summary>
-    [HttpPost("{id:guid}/books")]
+    [HttpGet("{id:guid}/books")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IList<BorrowedBookResponse>),200)]
     [ProducesResponseType(400)]

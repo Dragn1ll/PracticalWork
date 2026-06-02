@@ -21,6 +21,7 @@ public static class Entry
         serviceCollection.AddScoped<IBookRepository, BookRepository>();
         serviceCollection.AddScoped<ILibraryRepository, LibraryRepository>();
         serviceCollection.AddScoped<IReaderRepository, ReaderRepository>();
+        serviceCollection.AddScoped<INotificationLogRepository, NotificationLogRepository>();
 
         return serviceCollection;
     }

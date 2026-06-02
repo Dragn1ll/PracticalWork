@@ -75,11 +75,11 @@ public sealed class BookRepository : IBookRepository
         var entities = await books.AsNoTracking()
             .Where(b => (b.Authors.Contains(author) || string.IsNullOrEmpty(author)) 
                         && b.Status == status)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .ToListAsync();
 
         var items = entities
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
             .Select(e => new BookListDto(e.Id, e.Title, e.Authors, e.Description, e.Year,
                 e.CoverImagePath))
             .ToList();

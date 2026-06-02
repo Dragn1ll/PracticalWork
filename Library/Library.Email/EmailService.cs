@@ -31,6 +31,8 @@ public class EmailService : IEmailService
             mimeMessage.Subject = message.Subject;
             mimeMessage.Body = GetBodyBuilder(message).ToMessageBody();
 
+            await _client.ConnectAsync(_options.SmtpServer, _options.SmtpPort, _options.UseSsl);
+            
             var response = await _client.SendAsync(mimeMessage);
             result.IsSuccess = true;
             result.Message = response;
