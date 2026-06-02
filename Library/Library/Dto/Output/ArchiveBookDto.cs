@@ -18,6 +18,6 @@ public sealed class ArchiveBookDto
     {
         Id = id;
         Title = title;
-        ArchivedAt = DateTime.Now;
+        ArchivedAt = DateTime.UtcNow;
     }
 }

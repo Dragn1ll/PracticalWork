@@ -47,7 +47,7 @@ public sealed class ReaderService : IReaderService
     public async Task ExtendValidity(Guid readerId, DateOnly newExpiryDate)
     {
         
-        if (newExpiryDate < DateOnly.FromDateTime(DateTime.Now))
+        if (newExpiryDate < DateOnly.FromDateTime(DateTime.UtcNow))
         {
             throw new ClientErrorException("Дата продления не может быть раньше сегодняшней!");
         }

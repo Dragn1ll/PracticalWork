@@ -42,8 +42,8 @@ public sealed class LibraryService : ILibraryService
             {
                 BookId = bookId,
                 ReaderId = readerId,
-                BorrowDate = DateOnly.FromDateTime(DateTime.Now),
-                DueDate = DateOnly.FromDateTime(DateTime.Now.AddDays(30)),
+                BorrowDate = DateOnly.FromDateTime(DateTime.UtcNow),
+                DueDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(30)),
                 Status = BookIssueStatus.Issued
             };
             

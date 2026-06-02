@@ -32,7 +32,7 @@ public sealed class Borrow
             throw new InvalidOperationException("Книга уже возвращена в библиотеку!");
         }
 
-        ReturnDate = DateOnly.FromDateTime(DateTime.Now);
+        ReturnDate = DateOnly.FromDateTime(DateTime.UtcNow);
         Status = ReturnDate < DueDate 
             ? BookIssueStatus.Returned 
             : BookIssueStatus.Overdue;

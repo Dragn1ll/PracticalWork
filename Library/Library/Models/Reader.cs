@@ -21,7 +21,7 @@ public sealed class Reader
     public string Email { get; set; } = string.Empty;
 
     /// <summary>Проверка активности карточки</summary>
-    public bool CanDoSomething() => IsActive && ExpiryDate >= DateOnly.FromDateTime(DateTime.Today);
+    public bool CanDoSomething() => IsActive && ExpiryDate >= DateOnly.FromDateTime(DateTime.UtcNow);
     
     /// <summary>
     /// Обновление даты окончания действия
@@ -48,6 +48,6 @@ public sealed class Reader
         }
         
         IsActive = false;
-        ExpiryDate = DateOnly.FromDateTime(DateTime.Now);
+        ExpiryDate = DateOnly.FromDateTime(DateTime.UtcNow);
     }
 }

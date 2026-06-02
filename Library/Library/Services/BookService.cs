@@ -161,7 +161,7 @@ public sealed class BookService : IBookService
             }
 
             book.UpdateDetails(description,
-                $"{DateTime.Today.Year}/{DateTime.Today.Month}/{bookId}{extension}");
+                $"{DateTime.UtcNow.Year}/{DateTime.UtcNow.Month}/{bookId}{extension}");
 
             await _fileStorage.UploadFileAsync(book.CoverImagePath, coverImage.OpenReadStream(), 
                 coverImage.ContentType);
