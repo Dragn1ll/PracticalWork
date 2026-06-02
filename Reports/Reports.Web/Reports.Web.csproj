@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Asp.Versioning.Http" />
+      <PackageReference Include="JetBrains.Annotations" />
+      <PackageReference Include="Swashbuckle.AspNetCore.Swagger" />
+      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" />
+      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Reports.Cache.Redis\Reports.Cache.Redis.csproj" />
+      <ProjectReference Include="..\Reports.Controllers\Reports.Controllers.csproj" />
+      <ProjectReference Include="..\Reports.Data.Minio\Reports.Data.Minio.csproj" />
+      <ProjectReference Include="..\Reports.Data.PostgreSql\Reports.Data.PostgreSql.csproj" />
+      <ProjectReference Include="..\Reports.MessageBroker.RabbitMq\Reports.MessageBroker.RabbitMq.csproj" />
+      <ProjectReference Include="..\Reports\Reports.csproj" />
+    </ItemGroup>
+
+</Project>

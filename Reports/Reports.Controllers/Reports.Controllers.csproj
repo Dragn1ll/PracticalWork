@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Asp.Versioning.Mvc" />
+      <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Reports.Contracts\Reports.Contracts.csproj" />
+      <ProjectReference Include="..\Reports\Reports.csproj" />
+    </ItemGroup>
+
+</Project>

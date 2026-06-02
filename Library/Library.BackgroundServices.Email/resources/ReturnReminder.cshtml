@@ -1,0 +1,103 @@
+@model PracticalWork.Library.Models.ReturnReminderModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Напоминание о возврате книги</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f6f9; font-family: Arial, Helvetica, sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="padding: 20px 0;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                    <!-- Header -->
+                    <tr>
+                        <td style="background-color: #2c3e50; padding: 24px 30px; text-align: center;">
+                            <h1 style="margin: 0; color: #ffffff; font-size: 22px; font-weight: bold;">
+                                @Model.LibraryName
+                            </h1>
+                        </td>
+                    </tr>
+                    <!-- Body -->
+                    <tr>
+                        <td style="padding: 30px;">
+                            <p style="font-size: 16px; color: #333333; margin: 0 0 20px 0;">
+                                Уважаемый(ая) @Model.ReaderName!
+                            </p>
+                            <p style="font-size: 15px; color: #495057; margin: 0 0 24px 0; line-height: 1.5;">
+                                Напоминаем вам о необходимости возврата книги в библиотеку.
+                            </p>
+                            <!-- Book Info Block -->
+                            <table width="100%" cellpadding="0" cellspacing="0" style="border: 1px solid #dee2e6; border-radius: 6px; overflow: hidden; margin: 0 0 24px 0;">
+                                <tr>
+                                    <td style="background-color: #f8f9fa; padding: 14px 20px; border-bottom: 1px solid #dee2e6;">
+                                        <h2 style="margin: 0; font-size: 18px; color: #2c3e50; font-weight: bold;">
+                                            Информация о книге
+                                        </h2>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 20px;">
+                                        <p style="margin: 0 0 8px 0; font-size: 15px;">
+                                            <span style="color: #495057; font-weight: bold;">Название:</span>
+                                            <span style="color: #6c757d;">@Model.BookTitle</span>
+                                        </p>
+                                        <p style="margin: 0 0 8px 0; font-size: 15px;">
+                                            <span style="color: #495057; font-weight: bold;">Автор(ы):</span>
+                                            <span style="color: #6c757d;">@Model.BookAuthors</span>
+                                        </p>
+                                        <p style="margin: 0 0 8px 0; font-size: 15px;">
+                                            <span style="color: #495057; font-weight: bold;">Срок возврата:</span>
+                                            <span style="color: #6c757d;">@Model.DueDate</span>
+                                        </p>
+                                        <p style="margin: 16px 0 0 0; font-size: 16px; color: #28a745; font-weight: bold;">
+                                            Осталось дней: @Model.DaysRemaining
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                            <p style="font-size: 15px; color: #495057; margin: 0 0 24px 0; line-height: 1.5;">
+                                Пожалуйста, верните книгу до указанной даты.
+                            </p>
+                            <!-- Contacts -->
+                            <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8f9fa; border-radius: 6px; padding: 16px 20px; margin: 0 0 24px 0;">
+                                <tr>
+                                    <td style="padding: 16px 20px;">
+                                        <p style="margin: 0 0 10px 0; font-size: 15px; color: #2c3e50; font-weight: bold;">
+                                            Контакты библиотеки:
+                                        </p>
+                                        <ul style="margin: 0; padding-left: 20px; color: #495057; font-size: 14px; line-height: 1.8;">
+                                            <li style="color: #495057;">Адрес: @Model.LibraryAddress</li>
+                                            <li style="color: #495057;">Телефон: @Model.LibraryPhone</li>
+                                            <li style="color: #495057;">Часы работы: @Model.WorkingHours</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
+                            <!-- Signature -->
+                            <p style="font-size: 14px; color: #6c757d; font-style: italic; margin: 0 0 6px 0;">
+                                С уважением,
+                            </p>
+                            <p style="font-size: 14px; color: #6c757d; font-style: italic; margin: 0;">
+                                Администрация библиотеки
+                            </p>
+                        </td>
+                    </tr>
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #f8f9fa; padding: 16px 30px; border-top: 1px solid #dee2e6; text-align: center;">
+                            <p style="font-size: 12px; color: #adb5bd; margin: 0;">
+                                Это письмо было отправлено автоматически. Если вы уже вернули книгу, проигнорируйте это сообщение.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

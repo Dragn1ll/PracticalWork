@@ -1,0 +1,99 @@
+services:
+  # PostgreSQL database
+  library-db:
+   image: postgres
+   container_name: library_db
+   ports:
+    - "5433:5432"
+   env_file: .env
+   environment:
+    - POSTGRES_DB=library
+   volumes:
+    - library_db_data:/var/lib/library
+  
+  reporting-db:
+   image: postgres
+   container_name: reporting_db
+   ports:
+    - "5434:5432"
+   env_file: .env
+   environment:
+    - POSTGRES_DB=reporting
+   volumes:
+    - reporting_db_data:/var/lib/reporting
+
+  # Redis cache
+  redis:
+   image: redis
+   container_name: cache
+   ports:
+    - "6379:6379"
+   volumes:
+    - redis_data:/data
+
+  # MinIO file storage
+  minio:
+   image: minio/minio
+   container_name: minio
+   command: server /data --console-address ":9001"
+   env_file: .env
+   ports:
+    - "9000:9000"
+    - "9001:9001"
+   volumes:
+    - minio_data:/data 
+
+  # pgAdmin for database management
+  pgadmin:
+   image: dpage/pgadmin4
+   container_name: pgadmin
+   env_file: .env
+   ports:
+    - "5050:80"
+   depends_on:
+    - library-db
+    - reporting-db
+   volumes:
+    - pgadmin_data:/var/lib/pgadmin
+
+  # Redis Commander for Redis management
+  redis-commander:
+   image: rediscommander/redis-commander
+   container_name: redis_commander
+   env_file: .env
+   ports:
+    - "8081:8081"
+   depends_on:
+    - redis
+  
+  rabbitmq:
+   image: rabbitmq:4-management
+   container_name: rabbitmq
+   ports:
+    - "5672:5672"
+    - "15672:15672"
+   env_file: .env
+   volumes:
+    - rabbitmq_data:/var/lib/rabbitmq
+ 
+  # SMTP4DEV - перехватчик email для разработки
+  smtp4dev:
+   image: rnwood/smtp4dev
+   container_name: smtp4dev
+   ports:
+    - "5000:80"
+    - "25:25"
+   environment:
+    - ServerOptions__HostName=0.0.0.0
+    - ServerOptions__Port=25
+   volumes:
+    - smtp4dev_data:/smtp4dev
+
+volumes:
+ library_db_data:
+ reporting_db_data:
+ redis_data:
+ minio_data:
+ pgadmin_data:
+ rabbitmq_data:
+ smtp4dev_data:

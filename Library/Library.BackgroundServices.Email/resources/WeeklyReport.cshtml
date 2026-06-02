@@ -1,0 +1,124 @@
+@model PracticalWork.Library.Models.WeeklyReportModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Еженедельный отчет библиотеки</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f6f9; font-family: Arial, Helvetica, sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="padding: 20px 0;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                    <!-- Header -->
+                    <tr>
+                        <td style="background-color: #2c3e50; padding: 24px 30px; text-align: center;">
+                            <h1 style="margin: 0; color: #ffffff; font-size: 22px; font-weight: bold;">
+                                Еженедельный отчет
+                            </h1>
+                            <p style="margin: 8px 0 0 0; color: #adb5bd; font-size: 14px;">
+                                @Model.LibraryName
+                            </p>
+                        </td>
+                    </tr>
+                    <!-- Body -->
+                    <tr>
+                        <td style="padding: 30px;">
+                            <p style="font-size: 16px; color: #495057; margin: 0 0 24px 0; text-align: center;">
+                                Период: @Model.PeriodStart &mdash; @Model.PeriodEnd
+                            </p>
+                            <!-- Stats Block -->
+                            <table width="100%" cellpadding="0" cellspacing="0" style="border: 1px solid #dee2e6; border-radius: 8px; overflow: hidden; margin: 0 0 24px 0;">
+                                <tr>
+                                    <td colspan="2" style="background-color: #28a745; padding: 12px 24px; color: #ffffff; font-size: 16px; font-weight: bold; text-align: center;">
+                                        Основная статистика
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding: 20px 24px 0 24px;">
+                                        <h2 style="margin: 0 0 20px 0; font-size: 20px; color: #2c3e50; font-weight: bold; border-bottom: 2px solid #dee2e6; padding-bottom: 15px;">
+                                            Показатели за неделю
+                                        </h2>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 15px 24px; border-bottom: 1px dashed #e9ecef; font-size: 16px; color: #495057;">
+                                        Новые книги
+                                    </td>
+                                    <td style="padding: 15px 24px; border-bottom: 1px dashed #e9ecef; font-size: 18px; color: #2c3e50; font-weight: bold; text-align: right;">
+                                        @Model.NewBooksCount
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 15px 24px; border-bottom: 1px dashed #e9ecef; font-size: 16px; color: #495057;">
+                                        Новые читатели
+                                    </td>
+                                    <td style="padding: 15px 24px; border-bottom: 1px dashed #e9ecef; font-size: 18px; color: #2c3e50; font-weight: bold; text-align: right;">
+                                        @Model.NewReadersCount
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 15px 24px; border-bottom: 1px dashed #e9ecef; font-size: 16px; color: #495057;">
+                                        Выдано книг
+                                    </td>
+                                    <td style="padding: 15px 24px; border-bottom: 1px dashed #e9ecef; font-size: 18px; color: #2c3e50; font-weight: bold; text-align: right;">
+                                        @Model.BorrowedBooksCount
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 15px 24px; border-bottom: 1px dashed #e9ecef; font-size: 16px; color: #495057;">
+                                        Возвращено книг
+                                    </td>
+                                    <td style="padding: 15px 24px; border-bottom: 1px dashed #e9ecef; font-size: 18px; color: #2c3e50; font-weight: bold; text-align: right;">
+                                        @Model.ReturnedBooksCount
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 15px 24px; font-size: 16px; color: #495057;">
+                                        Просроченные выдачи
+                                    </td>
+                                    <td style="padding: 15px 24px; font-size: 18px; color: #2c3e50; font-weight: bold; text-align: right;">
+                                        @Model.OverdueCount
+                                    </td>
+                                </tr>
+                            </table>
+                            <!-- Download Button -->
+                            <table width="100%" cellpadding="0" cellspacing="0" style="margin: 0 0 24px 0;">
+                                <tr>
+                                    <td align="center">
+                                        <a href="@Model.ReportDownloadUrl" 
+                                           style="display: inline-block; background-color: #28a745; color: #ffffff; font-size: 16px; font-weight: bold; padding: 12px 24px; border-radius: 4px; text-decoration: none;">
+                                            Скачать полный отчет (CSV)
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                            <p style="font-size: 14px; color: #6c757d; font-style: italic; margin: 0 0 24px 0; line-height: 1.5;">
+                                Отчет сгенерирован автоматически: @Model.GeneratedAt
+                            </p>
+                            <p style="font-size: 14px; color: #495057; margin: 0 0 6px 0;">
+                                С уважением,
+                            </p>
+                            <p style="font-size: 14px; color: #495057; margin: 0;">
+                                Администрация @Model.LibraryName
+                            </p>
+                        </td>
+                    </tr>
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #f8f9fa; padding: 16px 30px; border-top: 1px solid #dee2e6; text-align: center;">
+                            <p style="font-size: 12px; color: #adb5bd; margin: 0;">
+                                Это автоматически сгенерированное сообщение. Для получения дополнительной информации обратитесь в систему.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
