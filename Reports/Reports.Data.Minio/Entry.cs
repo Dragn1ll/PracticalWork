@@ -1,5 +1,4 @@
-﻿using Library.Data.Minio;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Reports.Abstractions.Storage;
 
 namespace Reports.Data.Minio;

@@ -10,7 +10,6 @@ public static class Entry
     /// </summary>
     public static IMvcBuilder AddApi(this IMvcBuilder builder)
     {
-        builder.Services.AddValidation();
         builder.Services.AddApiVersioning();
         builder.AddApplicationPart(typeof(Api.v1.ReportsController).Assembly);
 

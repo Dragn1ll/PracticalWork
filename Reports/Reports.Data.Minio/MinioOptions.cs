@@ -1,4 +1,4 @@
-namespace Library.Data.Minio;
+namespace Reports.Data.Minio;
 
 public class MinioOptions
 {
