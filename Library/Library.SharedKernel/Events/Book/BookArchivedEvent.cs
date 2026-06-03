@@ -1,5 +1,3 @@
-using PracticalWork.Library.MessageBroker.Events;
-
 namespace Library.SharedKernel.Events.Book;
 
 /// <summary>

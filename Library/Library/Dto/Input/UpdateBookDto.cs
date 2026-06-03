@@ -1,4 +1,4 @@
-namespace PracticalWork.Library.Dto.Input;
+namespace Library.Dto.Input;
 
 /// <summary>
 /// Данные для изменения книги

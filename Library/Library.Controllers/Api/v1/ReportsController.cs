@@ -3,8 +3,8 @@ using Library.Abstraction.Services;
 using Library.Contracts.v1.Reports.Request;
 using Library.Contracts.v1.Reports.Response;
 using Library.Controllers.Mappers.v1;
+using Library.SharedKernel.Events.Report;
 using Microsoft.AspNetCore.Mvc;
-using PracticalWork.Library.MessageBroker.Events.Report;
 
 namespace Library.Controllers.Api.v1;
 

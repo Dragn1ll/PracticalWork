@@ -8,6 +8,7 @@ using Library.Cache.Redis;
 using Library.Controllers;
 using Library.Data.Minio;
 using Library.Data.PostgreSql;
+using Library.Email;
 using Library.Exceptions;
 using Library.Http.ReportsService;
 using Library.MessageBroker.RabbitMq;
@@ -65,6 +66,7 @@ public class Startup
         services.AddFileStorage();
         services.AddMessageBroker();
         services.AddReportsServiceClient();
+        services.AddEmail();
         services.AddEmailBackgroundService(Configuration);
     }
 

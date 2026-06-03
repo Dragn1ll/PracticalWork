@@ -12,6 +12,7 @@
       <ProjectReference Include="..\Library.Controllers\Library.Controllers.csproj" />
       <ProjectReference Include="..\Library.Data.Minio\Library.Data.Minio.csproj" />
       <ProjectReference Include="..\Library.Data.PostgreSql\Library.Data.PostgreSql.csproj" />
+      <ProjectReference Include="..\Library.Email\Library.Email.csproj" />
       <ProjectReference Include="..\Library.Http.ReportsService\Library.Http.ReportsService.csproj" />
       <ProjectReference Include="..\Library.MessageBroker.RabbitMq\Library.MessageBroker.RabbitMq.csproj" />
       <ProjectReference Include="..\Library\Library.csproj" />

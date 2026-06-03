@@ -1,6 +1,4 @@
-using Library.SharedKernel.Events;
-
-namespace PracticalWork.Library.MessageBroker.Events.Report;
+namespace Library.SharedKernel.Events.Report;
 
 /// <summary>
 /// Событие на просьбу создания отчёта
