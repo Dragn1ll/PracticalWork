@@ -86,6 +86,11 @@ public sealed class BookService : IBookService
                 throw new ClientErrorException("Книга не может быть переведена в архив.");
             }
 
+            if (book.IsArchived)
+            {
+                throw new ClientErrorException("Книга уже находится в архиве.");
+            }
+
             await InvalidationBookListCache(book);
             await InvalidationLibraryBookCache(book);
 

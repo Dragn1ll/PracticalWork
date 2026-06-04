@@ -52,9 +52,9 @@ public sealed class AppDbContext : DbContext
     #endregion
 
     public DbSet<AbstractBookEntity> Books { get; set; }
-    internal DbSet<EducationalBookEntity> EducationalBooks { get; set; }
-    internal DbSet<FictionBookEntity> FictionBooks { get; set; }
-    internal DbSet<ScientificBookEntity> ScientificBooks { get; set; }
+    public DbSet<EducationalBookEntity> EducationalBooks { get; internal set; }
+    public DbSet<FictionBookEntity> FictionBooks { get; internal set; }
+    public DbSet<ScientificBookEntity> ScientificBooks { get; internal set; }
     public DbSet<ReaderEntity> Readers { get; set; }
     public DbSet<BookBorrowEntity> BookBorrows { get; set; }
     public DbSet<NotificationLogEntity> NotificationLogs { get; set; }

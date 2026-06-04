@@ -32,7 +32,7 @@ public sealed class Book
     public bool IsArchived { get; set; }
 
     /// <summary>Проверка перевода в архив</summary>
-    public bool CanBeArchived() => Status != BookStatus.Borrow && Status != BookStatus.Archived;
+    public bool CanBeArchived() => Status != BookStatus.Borrow;
 
     /// <summary>Проверка выдачи на руки</summary>
     public bool CanBeBorrowed() => !IsArchived && Status == BookStatus.Available;
