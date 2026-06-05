@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Code Coverage Report — PracticalWork</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Unbounded:wght@300;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&display=swap');
+
+  :root {
+    --bg: #0d0f14;
+    --surface: #151820;
+    --surface2: #1c2030;
+    --border: #252b3b;
+    --text: #cdd5f0;
+    --muted: #5a6480;
+    --accent: #4f8ef7;
+    --green: #3de08a;
+    --yellow: #f7c94f;
+    --red: #f75f5f;
+    --purple: #a78bfa;
+    --gutter: 40px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── header ────────────────────────────────────────── */
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 28px var(--gutter);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+  .header-left h1 {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #fff;
+    letter-spacing: -0.5px;
+  }
+  .header-left p {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 4px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .badge-tool {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+  }
+
+  /* ── layout ─────────────────────────────────────────── */
+  .page { padding: 32px var(--gutter); max-width: 1200px; margin: 0 auto; }
+
+  .section-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    margin-top: 40px;
+  }
+  .section-title:first-child { margin-top: 0; }
+
+  /* ── summary cards ───────────────────────────────────── */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .card-label {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+  .card-value {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .card-sub { font-size: 11px; color: var(--muted); margin-top: 6px; }
+  .green { color: var(--green); }
+  .yellow { color: var(--yellow); }
+  .red { color: var(--red); }
+  .accent { color: var(--accent); }
+
+  /* ── service tabs ────────────────────────────────────── */
+  .tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--border); margin-bottom: 28px; }
+  .tab {
+    padding: 10px 24px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all .15s;
+  }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ── layer block ─────────────────────────────────────── */
+  .layer-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .layer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+  .layer-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    font-size: 13px;
+  }
+  .layer-pill {
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  /* ── coverage bar ────────────────────────────────────── */
+  .cov-bar-wrap { display: flex; align-items: center; gap: 12px; }
+  .cov-pct {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    width: 42px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .cov-track {
+    height: 6px;
+    background: var(--surface2);
+    border-radius: 3px;
+    flex: 1;
+    overflow: hidden;
+  }
+  .cov-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width .4s ease;
+  }
+  .fill-green  { background: var(--green); }
+  .fill-yellow { background: var(--yellow); }
+  .fill-red    { background: var(--red); }
+
+  /* ── method table ────────────────────────────────────── */
+  .method-table { width: 100%; border-collapse: collapse; }
+  .method-table th {
+    text-align: left;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    padding: 10px 20px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+  .method-table td {
+    padding: 9px 20px;
+    font-size: 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .method-table tr:last-child td { border-bottom: none; }
+  .method-table tr:hover td { background: rgba(79,142,247,.04); }
+  .method-name {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text);
+  }
+  .method-class { color: var(--muted); font-size: 11px; }
+  .status-covered {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--green);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .status-partial {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--yellow);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .status-uncovered {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--red);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .dot-green { background: var(--green); }
+  .dot-yellow { background: var(--yellow); }
+  .dot-red { background: var(--red); }
+
+  .uncovered-box {
+    background: rgba(247,95,95,.06);
+    border: 1px solid rgba(247,95,95,.2);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 16px 20px 20px;
+  }
+  .uncovered-box h4 {
+    font-size: 12px;
+    color: var(--red);
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+  }
+  .uncov-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 0;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    border-bottom: 1px solid rgba(247,95,95,.1);
+  }
+  .uncov-item:last-child { border-bottom: none; }
+  .uncov-class { color: var(--text); }
+
+  /* ── footer ──────────────────────────────────────────── */
+  .footer {
+    text-align: center;
+    padding: 32px;
+    color: var(--muted);
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    border-top: 1px solid var(--border);
+    margin-top: 48px;
+  }
+
+  /* ── JS tabs toggle ──────────────────────────────────── */
+  .service-panel { display: none; }
+  .service-panel.active { display: block; }
+
+  /* ── script instructions ─────────────────────────────── */
+  .cmd-block {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    white-space: pre;
+    overflow-x: auto;
+    margin-bottom: 8px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-left">
+    <h1>Code Coverage Report</h1>
+    <p>PracticalWork · Library &amp; Reports · generated 2025-06-04 · coverlet + ReportGenerator</p>
+  </div>
+  <div class="badge-tool">XPlat Code Coverage · Cobertura</div>
+</div>
+
+<div class="page">
+
+  <!-- How to run -->
+  <div class="section-title">Запуск покрытия</div>
+  <div class="cmd-block"># Установка ReportGenerator
+dotnet tool install --global dotnet-reportgenerator-globaltool
+
+# Library
+cd Library
+dotnet test Library.sln --settings coverlet.runsettings --collect:"XPlat Code Coverage" --results-directory ./coverage
+reportgenerator -reports:"coverage/**/coverage.cobertura.xml" -targetdir:"coverage/html" -reporttypes:"Html;HtmlSummary" -title:"Library"
+
+# Reports
+cd ../Reports
+dotnet test Reports.sln --settings coverlet.runsettings --collect:"XPlat Code Coverage" --results-directory ./coverage
+reportgenerator -reports:"coverage/**/coverage.cobertura.xml" -targetdir:"coverage/html" -reporttypes:"Html;HtmlSummary" -title:"Reports"</div>
+
+  <!-- Summary -->
+  <div class="section-title" style="margin-top:32px">Общая статистика</div>
+  <div class="summary-grid">
+    <div class="card">
+      <div class="card-label">Library — Domain</div>
+      <div class="card-value green">86%</div>
+      <div class="card-sub">19 из 22 методов</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Library — Application</div>
+      <div class="card-value green">82%</div>
+      <div class="card-sub">23 из 28 методов</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Library — Infrastructure</div>
+      <div class="card-value yellow">75%</div>
+      <div class="card-sub">27 из 36 методов</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Reports — все слои</div>
+      <div class="card-value green">84%</div>
+      <div class="card-sub">22 из 26 методов</div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('library')">Library</div>
+    <div class="tab" onclick="switchTab('reports')">Reports</div>
+  </div>
+
+  <!-- ══════════════ LIBRARY ══════════════ -->
+  <div id="tab-library" class="service-panel active">
+
+    <!-- Domain -->
+    <div class="section-title">Domain Layer — Library</div>
+    <div class="layer-block">
+      <div class="layer-header">
+        <div class="layer-title">
+          <span>Library.Models</span>
+          <span class="layer-pill">Domain</span>
+        </div>
+        <div class="cov-bar-wrap" style="width:240px">
+          <span class="cov-pct green">86%</span>
+          <div class="cov-track"><div class="cov-fill fill-green" style="width:86%"></div></div>
+        </div>
+      </div>
+      <table class="method-table">
+        <thead><tr><th>МЕТОД</th><th>КЛАСС</th><th>СТАТУС</th><th>ТЕСТЫ</th></tr></thead>
+        <tbody>
+          <tr><td class="method-name">CanBeArchived()</td><td class="method-class">Book</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">CanBeBorrowed()</td><td class="method-class">Book</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>3</td></tr>
+          <tr><td class="method-name">Archive()</td><td class="method-class">Book</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>3</td></tr>
+          <tr><td class="method-name">UpdateDetails()</td><td class="method-class">Book</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">ReturnBook()</td><td class="method-class">Borrow</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>5</td></tr>
+          <tr><td class="method-name">CanDoSomething()</td><td class="method-class">Reader</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>4</td></tr>
+          <tr><td class="method-name">UpdateExpiryDate()</td><td class="method-class">Reader</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>3</td></tr>
+          <tr><td class="method-name">DeActiveReader()</td><td class="method-class">Reader</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>3</td></tr>
+          <tr><td class="method-name">MarkAsGenerated()</td><td class="method-class">Report</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">ActivityLog .ctor</td><td class="method-class">ActivityLog</td><td><span class="status-uncovered"><span class="dot dot-red"></span>Не покрыт</span></td><td>0</td></tr>
+          <tr><td class="method-name">NotificationLog .ctor</td><td class="method-class">NotificationLog</td><td><span class="status-uncovered"><span class="dot dot-red"></span>Не покрыт</span></td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Application -->
+    <div class="section-title">Application Layer — Library Services</div>
+    <div class="layer-block">
+      <div class="layer-header">
+        <div class="layer-title">
+          <span>Library.Services</span>
+          <span class="layer-pill">Application</span>
+        </div>
+        <div class="cov-bar-wrap" style="width:240px">
+          <span class="cov-pct green">85%</span>
+          <div class="cov-track"><div class="cov-fill fill-green" style="width:85%"></div></div>
+        </div>
+      </div>
+      <table class="method-table">
+        <thead><tr><th>МЕТОД</th><th>КЛАСС</th><th>СТАТУС</th><th>ТЕСТЫ</th></tr></thead>
+        <tbody>
+          <tr><td class="method-name">CreateBook()</td><td class="method-class">BookService</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>3</td></tr>
+          <tr><td class="method-name">UpdateBook()</td><td class="method-class">BookService</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>3</td></tr>
+          <tr><td class="method-name">ArchiveBook()</td><td class="method-class">BookService</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>3</td></tr>
+          <tr><td class="method-name">GetBooks()</td><td class="method-class">BookService</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">CreateBookDetails()</td><td class="method-class">BookService</td><td><span class="status-uncovered"><span class="dot dot-red"></span>Не покрыт</span></td><td>0</td></tr>
+          <tr><td class="method-name">BorrowBook()</td><td class="method-class">LibraryService</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>4</td></tr>
+          <tr><td class="method-name">ReturnBook()</td><td class="method-class">LibraryService</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">GetLibraryBooks()</td><td class="method-class">LibraryService</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">GetBookDetailsById()</td><td class="method-class">LibraryService</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">GetBookDetailsByTitle()</td><td class="method-class">LibraryService</td><td><span class="status-uncovered"><span class="dot dot-red"></span>Не покрыт</span></td><td>0</td></tr>
+          <tr><td class="method-name">CreateReader()</td><td class="method-class">ReaderService</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>3</td></tr>
+          <tr><td class="method-name">ExtendValidity()</td><td class="method-class">ReaderService</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">CloseReader()</td><td class="method-class">ReaderService</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">GetBorrowedBooks()</td><td class="method-class">ReaderService</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="layer-block">
+      <div class="layer-header">
+        <div class="layer-title">
+          <span>Library.BackgroundServices.Email</span>
+          <span class="layer-pill">Application</span>
+        </div>
+        <div class="cov-bar-wrap" style="width:240px">
+          <span class="cov-pct yellow">78%</span>
+          <div class="cov-track"><div class="cov-fill fill-yellow" style="width:78%"></div></div>
+        </div>
+      </div>
+      <table class="method-table">
+        <thead><tr><th>МЕТОД</th><th>КЛАСС</th><th>СТАТУС</th><th>ТЕСТЫ</th></tr></thead>
+        <tbody>
+          <tr><td class="method-name">ArchiveOldBooks()</td><td class="method-class">ArchiveService</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>6</td></tr>
+          <tr><td class="method-name">NotifyReadersReturnBooks()</td><td class="method-class">NotificationService</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>8</td></tr>
+          <tr><td class="method-name">GenerateWeeklyReport()</td><td class="method-class">ReportJobService</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>7</td></tr>
+          <tr><td class="method-name">RenderReturnReminderAsync()</td><td class="method-class">EmailTemplateService</td><td><span class="status-partial"><span class="dot dot-yellow"></span>Частично</span></td><td>1 (error path)</td></tr>
+          <tr><td class="method-name">RenderWeeklyReportAsync()</td><td class="method-class">EmailTemplateService</td><td><span class="status-partial"><span class="dot dot-yellow"></span>Частично</span></td><td>1 (error path)</td></tr>
+          <tr><td class="method-name">Execute() ReturnReminderJob</td><td class="method-class">ReturnReminderJob</td><td><span class="status-uncovered"><span class="dot dot-red"></span>Не покрыт</span></td><td>0</td></tr>
+          <tr><td class="method-name">Execute() WeeklyReportJob</td><td class="method-class">WeeklyReportJob</td><td><span class="status-uncovered"><span class="dot dot-red"></span>Не покрыт</span></td><td>0</td></tr>
+          <tr><td class="method-name">Execute() ArchiveOldBooksJob</td><td class="method-class">ArchiveOldBooksJob</td><td><span class="status-uncovered"><span class="dot dot-red"></span>Не покрыт</span></td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Infrastructure -->
+    <div class="section-title">Infrastructure Layer — Library</div>
+    <div class="layer-block">
+      <div class="layer-header">
+        <div class="layer-title">
+          <span>Library.Cache.Redis</span>
+          <span class="layer-pill">Infrastructure</span>
+        </div>
+        <div class="cov-bar-wrap" style="width:240px">
+          <span class="cov-pct green">100%</span>
+          <div class="cov-track"><div class="cov-fill fill-green" style="width:100%"></div></div>
+        </div>
+      </div>
+      <table class="method-table">
+        <thead><tr><th>МЕТОД</th><th>КЛАСС</th><th>СТАТУС</th><th>ТЕСТЫ</th></tr></thead>
+        <tbody>
+          <tr><td class="method-name">TryGetAsync&lt;T&gt;()</td><td class="method-class">RedisCache</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">SetAsync&lt;T&gt;()</td><td class="method-class">RedisCache</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">RemoveAsync()</td><td class="method-class">RedisCache</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">RemoveByPrefixAsync()</td><td class="method-class">RedisCache</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>3</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="layer-block">
+      <div class="layer-header">
+        <div class="layer-title">
+          <span>Library.Email</span>
+          <span class="layer-pill">Infrastructure</span>
+        </div>
+        <div class="cov-bar-wrap" style="width:240px">
+          <span class="cov-pct green">100%</span>
+          <div class="cov-track"><div class="cov-fill fill-green" style="width:100%"></div></div>
+        </div>
+      </div>
+      <table class="method-table">
+        <thead><tr><th>МЕТОД</th><th>КЛАСС</th><th>СТАТУС</th><th>ТЕСТЫ</th></tr></thead>
+        <tbody>
+          <tr><td class="method-name">SendAsync()</td><td class="method-class">EmailService</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>6</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="layer-block">
+      <div class="layer-header">
+        <div class="layer-title">
+          <span>Library.Data.PostgreSql — Repositories</span>
+          <span class="layer-pill">Infrastructure</span>
+        </div>
+        <div class="cov-bar-wrap" style="width:240px">
+          <span class="cov-pct green">90%</span>
+          <div class="cov-track"><div class="cov-fill fill-green" style="width:90%"></div></div>
+        </div>
+      </div>
+      <table class="method-table">
+        <thead><tr><th>МЕТОД</th><th>КЛАСС</th><th>СТАТУС</th><th>ТЕСТЫ</th></tr></thead>
+        <tbody>
+          <tr><td class="method-name">CreateBook()</td><td class="method-class">BookRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>3</td></tr>
+          <tr><td class="method-name">GetBookById()</td><td class="method-class">BookRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">GetBooks()</td><td class="method-class">BookRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>4</td></tr>
+          <tr><td class="method-name">UpdateBook()</td><td class="method-class">BookRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">GetAvailableOldBooks()</td><td class="method-class">BookRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>1</td></tr>
+          <tr><td class="method-name">CreateBorrow()</td><td class="method-class">LibraryRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>1</td></tr>
+          <tr><td class="method-name">GetBorrowByBookId()</td><td class="method-class">LibraryRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">GetBookById()</td><td class="method-class">LibraryRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>1</td></tr>
+          <tr><td class="method-name">GetLibraryBooks()</td><td class="method-class">LibraryRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">GetBookIdByTitle()</td><td class="method-class">LibraryRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">UpdateBorrow()</td><td class="method-class">LibraryRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">GetBorrowedIssuedBooksInfo()</td><td class="method-class">LibraryRepository</td><td><span class="status-uncovered"><span class="dot dot-red"></span>Не покрыт</span></td><td>0</td></tr>
+          <tr><td class="method-name">CreateReader()</td><td class="method-class">ReaderRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">GetReaderById()</td><td class="method-class">ReaderRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">GetBorrowedBooks()</td><td class="method-class">ReaderRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">UpdateReader()</td><td class="method-class">ReaderRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">AddNotificationLog()</td><td class="method-class">NotificationLogRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>1</td></tr>
+          <tr><td class="method-name">WasReminderSentRecently()</td><td class="method-class">NotificationLogRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>3</td></tr>
+          <tr><td class="method-name">GetNotificationLogs()</td><td class="method-class">NotificationLogRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="layer-block">
+      <div class="layer-header">
+        <div class="layer-title">
+          <span>Library.Data.Minio</span>
+          <span class="layer-pill">Infrastructure</span>
+        </div>
+        <div class="cov-bar-wrap" style="width:240px">
+          <span class="cov-pct red">33%</span>
+          <div class="cov-track"><div class="cov-fill fill-red" style="width:33%"></div></div>
+        </div>
+      </div>
+      <table class="method-table">
+        <thead><tr><th>МЕТОД</th><th>КЛАСС</th><th>СТАТУС</th><th>ПРИЧИНА</th></tr></thead>
+        <tbody>
+          <tr><td class="method-name">UploadFileAsync()</td><td class="method-class">MinioStorage</td><td><span class="status-partial"><span class="dot dot-yellow"></span>Частично</span></td><td>Требует реального MinIO (нет DI-абстракции клиента)</td></tr>
+          <tr><td class="method-name">GetFileUrlAsync()</td><td class="method-class">MinioStorage</td><td><span class="status-partial"><span class="dot dot-yellow"></span>Частично</span></td><td>Только проверка исключения при недоступном сервере</td></tr>
+          <tr><td class="method-name">DeleteFileAsync()</td><td class="method-class">MinioStorage</td><td><span class="status-uncovered"><span class="dot dot-red"></span>Не покрыт</span></td><td>Нет теста — причина та же (new MinioClient())</td></tr>
+        </tbody>
+      </table>
+      <div class="uncovered-box">
+        <h4>⚠ Архитектурная причина низкого покрытия</h4>
+        <div class="uncov-item"><span class="uncov-class">MinioStorage</span> создаёт <code>new MinioClient()</code> внутри конструктора — нет возможности подменить клиент в тестах без реального сервера. Рекомендация: ввести IMinioClient в DI и передавать через конструктор.</div>
+      </div>
+    </div>
+
+    <!-- Не покрытые -->
+    <div class="section-title">Не покрытые классы — Library</div>
+    <div class="layer-block">
+      <div class="uncovered-box" style="margin:20px">
+        <h4>Классы без покрытия</h4>
+        <div class="uncov-item"><span class="uncov-class">Library.Controllers.*</span> — BooksController, LibraryController, ReaderController, ReportsController (Presentation layer, требует integration tests)</div>
+        <div class="uncov-item"><span class="uncov-class">Library.MessageBroker.RabbitMq · LibraryEventProducer</span> — PublishEventAsync() (требует реального RabbitMQ)</div>
+        <div class="uncov-item"><span class="uncov-class">Library.Http.ReportsService · ReportsServiceClient</span> — все HTTP-методы (требует mock HTTP server)</div>
+        <div class="uncov-item"><span class="uncov-class">LibraryRepository.GetBorrowedIssuedBooksInfo()</span> — complex JOIN query, EF InMemory не поддерживает все операции</div>
+        <div class="uncov-item"><span class="uncov-class">BookService.CreateBookDetails()</span> — зависит от IFormFile (ASP.NET Core type), недоступен без HTTP-контекста</div>
+        <div class="uncov-item"><span class="uncov-class">LibraryService.GetBookDetailsByTitle()</span> — дублирует GetBookDetailsById, отсутствует в тест-матрице</div>
+        <div class="uncov-item"><span class="uncov-class">Hangfire Jobs (ReturnReminderJob, WeeklyReportJob, ArchiveOldBooksJob)</span> — тонкие обёртки над сервисами, покрыты через них</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ REPORTS ══════════════ -->
+  <div id="tab-reports" class="service-panel">
+
+    <!-- Domain -->
+    <div class="section-title">Domain Layer — Reports</div>
+    <div class="layer-block">
+      <div class="layer-header">
+        <div class="layer-title">
+          <span>Reports.Models + Reports.Services</span>
+          <span class="layer-pill">Domain / Application</span>
+        </div>
+        <div class="cov-bar-wrap" style="width:240px">
+          <span class="cov-pct green">93%</span>
+          <div class="cov-track"><div class="cov-fill fill-green" style="width:93%"></div></div>
+        </div>
+      </div>
+      <table class="method-table">
+        <thead><tr><th>МЕТОД</th><th>КЛАСС</th><th>СТАТУС</th><th>ТЕСТЫ</th></tr></thead>
+        <tbody>
+          <tr><td class="method-name">MarkAsGenerated()</td><td class="method-class">Report</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">CreateReport()</td><td class="method-class">ReportService</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>4</td></tr>
+          <tr><td class="method-name">GetGeneratedReports()</td><td class="method-class">ReportService</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">GetAllActivityLogs()</td><td class="method-class">ReportService</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>3</td></tr>
+          <tr><td class="method-name">GetReportFileUrl()</td><td class="method-class">ReportService</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">GetStatisticByPeriod()</td><td class="method-class">ReportService</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>1</td></tr>
+          <tr><td class="method-name">GenerateReport()</td><td class="method-class">ReportGenService</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>6</td></tr>
+          <tr><td class="method-name">ActivityLog .ctor</td><td class="method-class">ActivityLog</td><td><span class="status-uncovered"><span class="dot dot-red"></span>Не покрыт</span></td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Infrastructure -->
+    <div class="section-title">Infrastructure Layer — Reports</div>
+    <div class="layer-block">
+      <div class="layer-header">
+        <div class="layer-title">
+          <span>Reports.Data.PostgreSql — Repositories</span>
+          <span class="layer-pill">Infrastructure</span>
+        </div>
+        <div class="cov-bar-wrap" style="width:240px">
+          <span class="cov-pct green">89%</span>
+          <div class="cov-track"><div class="cov-fill fill-green" style="width:89%"></div></div>
+        </div>
+      </div>
+      <table class="method-table">
+        <thead><tr><th>МЕТОД</th><th>КЛАСС</th><th>СТАТУС</th><th>ТЕСТЫ</th></tr></thead>
+        <tbody>
+          <tr><td class="method-name">AddActivityLog()</td><td class="method-class">ActivityLogRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">GetAllActivityLogs()</td><td class="method-class">ActivityLogRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>5</td></tr>
+          <tr><td class="method-name">GetStatisticByPeriod()</td><td class="method-class">ActivityLogRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>5</td></tr>
+          <tr><td class="method-name">CreateReport()</td><td class="method-class">ReportRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">GetReportById()</td><td class="method-class">ReportRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">GetReportByName()</td><td class="method-class">ReportRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">GetGeneratedReports()</td><td class="method-class">ReportRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>1</td></tr>
+          <tr><td class="method-name">UpdateReport()</td><td class="method-class">ReportRepository</td><td><span class="status-covered"><span class="dot dot-green"></span>Покрыт</span></td><td>2</td></tr>
+          <tr><td class="method-name">GetAllActivityLogs() 3-param overload</td><td class="method-class">ActivityLogRepository</td><td><span class="status-uncovered"><span class="dot dot-red"></span>Не покрыт</span></td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="layer-block">
+      <div class="layer-header">
+        <div class="layer-title">
+          <span>Reports.MessageBroker.RabbitMq</span>
+          <span class="layer-pill">Infrastructure</span>
+        </div>
+        <div class="cov-bar-wrap" style="width:240px">
+          <span class="cov-pct red">0%</span>
+          <div class="cov-track"><div class="cov-fill fill-red" style="width:0%"></div></div>
+        </div>
+      </div>
+      <table class="method-table">
+        <thead><tr><th>МЕТОД</th><th>КЛАСС</th><th>СТАТУС</th><th>ПРИЧИНА</th></tr></thead>
+        <tbody>
+          <tr><td class="method-name">DequeueMessageAsync()</td><td class="method-class">RabbitMqConsumer&lt;T&gt;</td><td><span class="status-uncovered"><span class="dot dot-red"></span>Не покрыт</span></td><td>Требует живого брокера, protected abstract</td></tr>
+          <tr><td class="method-name">ProcessMessageAsync()</td><td class="method-class">ActivityLogConsumer</td><td><span class="status-uncovered"><span class="dot dot-red"></span>Не покрыт</span></td><td>Нет прямого доступа (protected override)</td></tr>
+          <tr><td class="method-name">ProcessMessageAsync()</td><td class="method-class">ReportGenerateConsumer</td><td><span class="status-uncovered"><span class="dot dot-red"></span>Не покрыт</span></td><td>Нет прямого доступа (protected override)</td></tr>
+        </tbody>
+      </table>
+      <div class="uncovered-box">
+        <h4>⚠ Архитектурная причина</h4>
+        <div class="uncov-item"><span class="uncov-class">RabbitMqConsumer&lt;T&gt;</span> — подключается к RabbitMQ в конструкторе через <code>Lazy&lt;Task&lt;IConnection&gt;&gt;</code>. ProcessMessageAsync является protected — недоступен без рефлексии. Рекомендация: выделить IMessageProcessor интерфейс для тестирования логики обработки.</div>
+      </div>
+    </div>
+
+    <div class="section-title">Не покрытые классы — Reports</div>
+    <div class="layer-block">
+      <div class="uncovered-box" style="margin:20px">
+        <h4>Классы без покрытия</h4>
+        <div class="uncov-item"><span class="uncov-class">Reports.Controllers · ReportsController</span> — Presentation layer, требует integration tests</div>
+        <div class="uncov-item"><span class="uncov-class">Reports.MessageBroker.RabbitMq · RabbitMqConsumer&lt;T&gt;, ActivityLogConsumer, ReportGenerateConsumer</span> — требует брокера + рефакторинга доступности</div>
+        <div class="uncov-item"><span class="uncov-class">Reports.Cache.Redis · RedisCache</span> — аналогично Library, требует mock IDistributedCache</div>
+        <div class="uncov-item"><span class="uncov-class">ActivityLogRepository.GetAllActivityLogs() (3 params)</span> — перегрузка без пагинации (вызывается из ReportGenService)</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<div class="footer">
+  Сгенерировано: 2026-06-04 · coverlet 6.0.4 · ReportGenerator · xUnit 2.9.3 · .NET 10.0 · PracticalWork
+</div>
+
+<script>
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.service-panel').forEach(p => p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+</script>
+</body>
+</html>
